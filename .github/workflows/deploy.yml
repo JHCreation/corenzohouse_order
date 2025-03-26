@@ -31,6 +31,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build project
+        env: 
+          VITE_API_URL: "https://www.corenzohouse.com/api"
+          VITE_PUBLIC_URL: "https://www.corenzohouse.com"
+          VITE_LOCAL_URL: "https://www.corenzohouse.com"
+          VITE_CORENZO_URL: "https://api.memesition.com/corenzo"
+          VITE_CORENZO_URL_PUBLIC: "https://api.memesition.com/corenzo"
         run: pnpm build
 
       - name: Deploy via Rsync
