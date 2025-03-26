@@ -130,38 +130,38 @@
       </div>
 
       {#if sw_subscription}
-      <div class="">
-        <div class="px-4 pt-4 mt-4 border-t">
-          
+        <div class="hidden md:block">
+          <div class="px-4 pt-4 mt-4 border-t">
+            
 
-          
-          {#if onSound}
+            
+            {#if onSound}
 
-            <div class="">
-              <div class="p-4 border">
-                <p class="text-xs">알림음 볼륨</p>
-                <Slider type="single" bind:value={$notificationSoundVolume} max={1} step={.1} class="mt-4"/>
+              <div class="">
+                <div class="p-4 border">
+                  <p class="text-xs">알림음 볼륨</p>
+                  <Slider type="single" bind:value={$notificationSoundVolume} max={1} step={.1} class="mt-4"/>
+                </div>
+                <div class="flex">
+                  <Button 
+                    size="sm"
+                    onclick={e=> sountTest()}
+                    class="text-xs bg-slate-600 hover:bg-slate-600 mt-1 w-full"
+                  >테스트</Button>
+                  <!-- <Button onclick={e=> $notificationSound.pause()}>pause</Button> -->
+                </div>
+                
               </div>
-              <div class="flex">
-                <Button 
-                  size="sm"
-                  onclick={e=> sountTest()}
-                  class="text-xs bg-slate-600 hover:bg-slate-600 mt-1 w-full"
-                >테스트</Button>
-                <!-- <Button onclick={e=> $notificationSound.pause()}>pause</Button> -->
+            {/if}
+            {#if !onSound}
+              <div class="text-center">
+                <div class="text-center mb-2 text-xs">알림음을 들을 수 없는 상태.</div>
+                <Button onclick={e=>enableSound()} class="bg-sky-600 text-white ">알림음 켜기</Button>
               </div>
-              
-            </div>
-          {/if}
-          {#if !onSound}
-            <div class="text-center">
-              <div class="text-center mb-2 text-xs">알림음을 들을 수 없는 상태.</div>
-              <Button onclick={e=>enableSound()} class="bg-sky-600 text-white ">알림음 켜기</Button>
-            </div>
-          {/if}
+            {/if}
+          </div>
+          
         </div>
-        
-      </div>
       {/if}
       
     </div>
