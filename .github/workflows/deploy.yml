@@ -37,6 +37,7 @@ jobs:
           VITE_LOCAL_URL: "https://www.corenzohouse.com"
           VITE_CORENZO_URL: "https://api.memesition.com/corenzo"
           VITE_CORENZO_URL_PUBLIC: "https://api.memesition.com/corenzo"
+          VITE_VAPID_PUBLIC_KEY: ${{secrets.VITE_VAPID_PUBLIC_KEY}}
         run: pnpm build
 
       - name: Deploy via Rsync
