@@ -36,7 +36,8 @@ export async function subscribeToNotifications(setSwSubscription) {
       body: JSON.stringify({
         key: generateShortId(16),
         subscription: JSON.stringify(subscription),
-        endpoint: subscription.endpoint
+        endpoint: subscription.endpoint,
+        status: 'use'
       })
     });
     const response= await res.json()

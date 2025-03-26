@@ -109,7 +109,7 @@
                     const res= await subscribeToNotifications(setSwSubscription)
                   }}
                   class="bg-green-500"
-                >구독요청</Button>
+                >푸시알림 허용</Button>
               </div>
             {:else}
               <div class="flex flex-col items-center">
