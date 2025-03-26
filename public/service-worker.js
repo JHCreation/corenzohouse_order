@@ -29,9 +29,10 @@ self.addEventListener('push', (event) => {
         if (clients.length > 0) {
             clients[0].postMessage({ type: "play-sound" });
             // clients[0].focus();  
-        } else {
+        } 
+        /* else {
             clients.openWindow(event.notification.data.url);
-        }
+        } */
     })
   );
   
