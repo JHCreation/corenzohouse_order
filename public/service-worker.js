@@ -10,7 +10,18 @@ self.addEventListener('push', (event) => {
   cont.push(`금액: ${total}원`)
 
 
-  console.log('Sounds On')
+  event.waitUntil(
+    self.registration.showNotification(`${tid}번 ${title}`, {
+      // body: `${data[0].key}\n${data[0].name}\n${data[0].price}\n`,
+      body: `${cont.join(',\n')}`,
+      icon: '/img/logo/logo.svg',
+      data: {
+        url: `/orders`
+      },
+    })
+  );
+
+  console.log('Sounds On down')
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true })
     .then(clients => {
@@ -21,18 +32,6 @@ self.addEventListener('push', (event) => {
         } else {
             clients.openWindow(event.notification.data.url);
         }
-    })
-  );
-  
-
-  event.waitUntil(
-    self.registration.showNotification(`${tid}번 ${title}`, {
-      // body: `${data[0].key}\n${data[0].name}\n${data[0].price}\n`,
-      body: `${cont.join(',\n')}`,
-      icon: '/img/logo/logo.svg',
-      data: {
-        url: `/orders`
-      },
     })
   );
   

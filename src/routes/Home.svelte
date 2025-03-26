@@ -3,4 +3,4 @@
   
 </script>
 
-<div class="">home</div>
+<div class="">HOME</div>
