@@ -2,11 +2,12 @@
 
 self.addEventListener('push', (event) => {
   const data = event.data.json();
-  const { title, tid, prod, total, id }= data
-  // console.log(data, 'push--!')
-  const cont= prod.map(item=>
-    `[${item.key}] ${item.name} ${item.price}원 - ${item.qty}개`
-  )
+  const { title, tid, prod, total, id, option }= data
+  console.log('push!!', data)
+  const cont= prod.map(item=>{
+    const optText= item?.option ? ` [${item?.option}]`:  ''
+    return `[${item.key}] ${item.name}${optText} ${item.price}원 - ${item.qty}개`
+  })
   cont.push(`금액: ${total}원`)
 
 

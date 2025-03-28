@@ -185,11 +185,14 @@
               <div class="">
                 <ul class="text-sm">
                   {#each content.prod as prod}
-                    {@const { key, name, price, qty  }= prod}
+                    {@const { key, name, price, qty, option  }= prod}
                     <li class="">
                       <span class="">[{key}]</span>
                       <span class="">{name}</span>
-                      <span class="">{price}원</span>
+                      {#if option}
+                      <span class="text-rose-500 font-bold">[{option}]</span>
+                      {/if}
+                      <span class="font-bold">{price}원</span>
       
                       <span class="">- {qty}개</span>
                     </li>

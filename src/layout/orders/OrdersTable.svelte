@@ -9,9 +9,9 @@
 	
 	let { list, joinList, fetchPaid, fetchInit }= $props()
 	let listByTables= $derived<any>(_.groupBy(joinList, 'table_id'))
-	let listByTable= $derived<any>(_.groupBy(list, 'content.tid'))
+	// let listByTable= $derived<any>(_.groupBy(list, 'content.tid'))
 
-	const tables= [1,2,3,4,5,6,7,8]
+	const tables= [1,2,3,4,5,6,7,8,9,10,11,12]
 	$inspect('status', listByTables, list)
 </script>
 
@@ -55,13 +55,16 @@
 								<div class="">
 									<ul class="text-xs">
 										{#each content.prod as prod}
-											{@const { key, name, price, qty  }= prod}
+											{@const { key, name, price, qty, option  }= prod}
 											<li class="">
 												<span class="">[{key}]</span>
 												<span class="">{name}</span>
+												{#if option}
+													<span class="text-red-600 font-bold">[{option}]</span>
+												{/if}
 												<span class="">{price}원</span>
 	
-												<span class="">- {qty}개</span>
+												<span class="text-red-600 font-bold">{qty}개</span>
 											</li>
 										{/each}
 									</ul>
