@@ -155,7 +155,7 @@ export const notificationSound= writable<any>()
 export const notificationSoundVolume= writable<any>(1)
 
 let volume= 1
-const handleMessage = (event) => {
+/* const handleMessage = (event) => {
   console.log('start sounds', event);
   if (event.data && event.data.type === "play-sound") {
     const audio = new Audio('/notification.mp3'); // 소리 파일 경로
@@ -163,7 +163,7 @@ const handleMessage = (event) => {
     audio.play().catch(error => console.error("message 소리 재생 실패:", error));
     getOrders();
   }
-};
+}; */
 export const updateVolume= (vol)=> {
   volume= vol
 }
@@ -180,7 +180,12 @@ export const serviceWorkerSound= ()=> {
         audio.play().catch(error => console.error("message 소리 재생 실패:", error));
         getOrders()
     }
+    if (event.data && event.data.type === "order-refresh") {
+      console.log('새로고침만 작동했다')
+      getOrders()
+    }
   });
+  
   
 }
 
