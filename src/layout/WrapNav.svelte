@@ -1,6 +1,15 @@
 
 <script lang="ts">
-  let { children, drawerOpen, onClose }= $props()
+  let { children }= $props()
+
+  let drawerOpen= $state(false)
+  const setDrawerOpen= (status)=>{
+    drawerOpen= status
+  }
+  const onDrawerClose= ()=> {
+    drawerOpen= false
+  }
+
   import { onMount } from "svelte";
   import { Link } from "svelte-routing";
   import Loading from "~/components/ui/Loading.svelte";
@@ -9,6 +18,7 @@
   
   import { Slider } from "$lib/components/ui/slider/index.js";
   import * as Drawer from "$lib/components/ui/drawer/index.js";
+    import NavTop from "./NavTop.svelte";
 
 
   let sw_register= $state<boolean|null>(null)
@@ -38,6 +48,7 @@
 
 
   let onSound= $state(false)
+  const setOnSound= (status)=> onSound= status 
   function enableSound() {
     const audio = new Audio('/notification.mp3'); 
     audio.play().then(() => {
@@ -74,8 +85,16 @@
   }
 </script>
 
-
-<Drawer.Root open={drawerOpen} onClose={onClose}>
+<NavTop 
+  drawerOpen={drawerOpen}
+  setDrawerOpen={setDrawerOpen}
+  sw_subscription={sw_subscription} 
+  enableSound={enableSound} 
+  sountTest={sountTest} 
+  onSound={onSound} 
+  setOnSound={setOnSound}
+/>
+<Drawer.Root open={drawerOpen} onClose={onDrawerClose}>
   <Drawer.Content class="w-full max-w-[600px] mx-auto">
     <!-- <Drawer.Header>
       <Drawer.Title>Are you sure absolutely sure?</Drawer.Title>
@@ -129,7 +148,7 @@
         {/if}
       </div>
 
-      {#if sw_subscription}
+      <!-- {#if sw_subscription}
         <div class="hidden md:block">
           <div class="px-4 pt-4 mt-4 border-t">
             
@@ -148,7 +167,7 @@
                     onclick={e=> sountTest()}
                     class="text-xs bg-slate-600 hover:bg-slate-600 mt-1 w-full"
                   >테스트</Button>
-                  <!-- <Button onclick={e=> $notificationSound.pause()}>pause</Button> -->
+                  <Button onclick={e=> $notificationSound.pause()}>pause</Button>
                 </div>
                 
               </div>
@@ -162,7 +181,7 @@
           </div>
           
         </div>
-      {/if}
+      {/if} -->
       
     </div>
 

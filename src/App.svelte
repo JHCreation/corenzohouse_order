@@ -8,6 +8,7 @@
 	import QrGenerate from "./routes/QrGenerate.svelte";
     import queryString from "query-string";
     import Reviewers from "./routes/Reviewers.svelte";
+    import dayjs from "dayjs";
 	// console.log(subscribeToNotifications)
 	let url= '';
 	let loading= $state(false)
@@ -22,7 +23,16 @@
 	}
 	fetchGroups() */
 
-	
+	document.addEventListener("visibilitychange", () => {
+		
+		if (document.visibilityState === "visible") {
+			console.log("사용자가 페이지로 돌아왔습니다!", dayjs().format('HH:mm:ss'));
+			// 페이지가 다시 보이게 되었을 때 수행할 작업
+		} else if (document.visibilityState === "hidden") {
+			console.log("사용자가 페이지를 떠났습니다.", dayjs().format('HH:mm:ss'));
+			// 페이지가 보이지 않게 되었을 때 수행할 작업
+		}
+	});
 </script>
 
 <main>

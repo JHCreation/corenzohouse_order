@@ -5,14 +5,55 @@
     import { orderGroupStatusKeys, type OrderGroupStatus } from './OrdersIndex.svelte';
     import { navigate } from 'svelte-routing';
     import { deleteOrder, deleteOrderItem } from './orders.svelte';
+	
     // import { orderGroupStatusKeys, orderStatusKeys } from './orders';
 	
 	let { list, joinList, fetchPaid, fetchInit }= $props()
 	let listByTables= $derived<any>(_.groupBy(joinList, 'table_id'))
+	
 	// let listByTable= $derived<any>(_.groupBy(list, 'content.tid'))
 
 	const tables= [1,2,3,4,5,6,7,8,9,10,11,12]
-	$inspect('status', listByTables, list)
+
+	$effect(()=> {
+		groupPriceByType(listByTables)
+	})
+
+	const groupPriceByType= (listByTables)=> {
+		const orderLists= {}
+		const orderList:any[]= []
+		const list= tables.map(key=> {
+			// console.log(key, listByTables[key])
+			if( listByTables[key] ) {
+				orderLists[key]= 
+				// const prodlist= 
+				listByTables[key].map(orderGroup=> {
+					const prd= orderGroup.order.map(order=> {
+						// console.log(order, _.get(order, 'content.prod'))	
+						return _.get(order, 'content.prod')
+					})
+					const list= _.flatten(prd)
+					const group= _.groupBy(list, 'key')
+					console.log(group)
+					Object.keys(group).map(key=> {
+						const total= _.sumBy(group[key], (item:any) => _.toNumber(item.price.replace(/,/g, '')) ) 
+						group[key]= total as any
+						console.log()
+					})
+					return {
+						order_id: orderGroup.order_id,
+						priceGroup: group
+					}
+				})
+				// orderList.push(prodlist)
+			}
+			
+		})
+		console.log(orderLists)
+		return orderLists
+	}
+	let listByPrice= $derived<any>(groupPriceByType(listByTables))
+	$inspect('status', listByTables, list, listByPrice)
 </script>
 
 
@@ -29,6 +70,7 @@
 					</a>
 				</div>
 				{#each listByTables[key] as orderGroup}
+					{@const orderId= orderGroup.order_id}
 					{@const stautsKey:OrderGroupStatus= orderGroup.status}
 					{@const stautsValue= orderGroupStatusKeys[orderGroup.status]}
 					<div class={`bg-gray-200 border- border-red-600 px-1 py-1 my-1 ${stautsKey == 'paid' ? 'opacity-35' : '' }`}>
@@ -74,6 +116,9 @@
 								
 							</div>
 						{/each}
+
+						
+
 						<div class="flex items-center justify-between">
 							<!-- <Button size={'sm'} class="text-xs py-2 px-4 h-auto"
 								onclick={e=> deleteOrder({ order_id:orderGroup.order_id })}
@@ -83,7 +128,19 @@
 									onclick={e=> fetchPaid({id:orderGroup.order_id, status: 'paid'})}
 								>결제</Button>
 							{/if}
-							<div class="text-red-500 text-sm font-black mx-1">
+
+							{#if listByPrice}
+								{@const currentOrder= listByPrice[key].find(o=> o.order_id==orderId)}
+								<ul class="w-full flex flex-wrap">
+									{#each Object.keys(currentOrder.priceGroup) as key}
+									<li class="text-2xs leading-4 px-2">
+										<span class="font-bold">[{key} 합]</span>
+										<span class="font-bold text-red-700">{currentOrder.priceGroup[key].toLocaleString()}원</span>
+									</li>
+									{/each}
+								</ul>
+							{/if}
+							<div class="text-red-500 text-sm font-black mx-1 text-nowrap">
 								{_.sumBy(orderGroup.order, function (o:any) { 
 									// console.log(_.parseInt(o.content.total.replace(/,/g, '')))
 									return _.parseInt(o.content.total.replace(/,/g, ''))

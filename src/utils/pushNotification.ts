@@ -177,7 +177,10 @@ export const serviceWorkerSound= ()=> {
         // notificationSound.set(audio)
         console.log(window, notificationSoundVolume)
         // notificationSound.volume = notificationSoundVolume;
-        audio.play().catch(error => console.error("message 소리 재생 실패:", error));
+        audio.play().catch(error => {
+          alert('알림음을 켜주세요.')
+          console.error("message 소리 재생 실패:", error)
+        });
         getOrders()
     }
     if (event.data && event.data.type === "order-refresh") {

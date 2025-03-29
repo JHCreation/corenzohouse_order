@@ -141,7 +141,7 @@
   </div>
 {/snippet}
 
-<div class="w-full p-2 pb-14">
+<div class="w-full px-2 pt-20 pb-24">
 
   <Tabs.Root value={type} >
     <div class="max-w-screen-md mx-auto flex items-center justify-between">
