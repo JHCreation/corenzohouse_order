@@ -151,10 +151,10 @@ export const serviceWorkerUnregister= ()=> {
 }
 
 
+let volume= 0
 export const notificationSound= writable<any>()
-export const notificationSoundVolume= writable<any>(1)
+export const notificationSoundVolume= writable<any>(volume)
 
-let volume= 1
 /* const handleMessage = (event) => {
   console.log('start sounds', event);
   if (event.data && event.data.type === "play-sound") {
@@ -166,6 +166,7 @@ let volume= 1
 }; */
 export const updateVolume= (vol)=> {
   volume= vol
+  // notificationSoundVolume.set(vol)
 }
 export const serviceWorkerSound= ()=> {
   // navigator.serviceWorker.removeEventListener("message", (event) => handleMessage(event, volume))
@@ -178,7 +179,7 @@ export const serviceWorkerSound= ()=> {
         console.log(window, notificationSoundVolume)
         // notificationSound.volume = notificationSoundVolume;
         audio.play().catch(error => {
-          alert('알림음을 켜주세요.')
+          alert('알림음이 꺼져있습니다.')
           console.error("message 소리 재생 실패:", error)
         });
         getOrders()

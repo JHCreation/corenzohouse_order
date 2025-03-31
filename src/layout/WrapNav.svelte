@@ -55,6 +55,7 @@
       // serviceWorkerSound($notificationSound)
       onSound= true;
       console.log("소리 재생 가능");
+      notificationSoundVolume.set(0.5)
       audio.pause()
       // localStorage.setItem('user-interacted', 'true');
     }).catch(error => console.error("소리 재생 실패:", error));

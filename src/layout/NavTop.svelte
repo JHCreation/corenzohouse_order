@@ -30,16 +30,10 @@
                     <DropdownMenu.Trigger onclick={e=> open= true}>
                         <div class="">
                             {#if onSound}
-                            <!-- <Button variant="ghost" size={'icon'}> -->
-                                <!-- <button onclick={e=> onSound=true} class=""> -->
-                                    <Volume2 size={24} strokeWidth={2.5} />
-                                <!-- </button> -->
-                            <!-- </Button> -->
+                                <Volume2 size={24} strokeWidth={2.5} />                                
                             {/if}
                             {#if !onSound}
-                            <!-- <button onclick={e=> onSound=false} class="touch-manipulation"> -->
                                 <VolumeOff size={24} strokeWidth={2.5} class="text-red-600"/>
-                            <!-- </button> -->
                             {/if}
                         </div>
                     </DropdownMenu.Trigger>
@@ -57,7 +51,8 @@
                                     )}
                                     onclick={e=> {
                                         // open=false
-                                        setOnSound(true)
+                                        enableSound()
+                                        // setOnSound(true)
                                     }}
                                 >
                                     <span class="text-xs ">

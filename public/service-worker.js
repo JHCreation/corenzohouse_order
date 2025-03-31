@@ -29,7 +29,7 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true })
     .then(clients => {
-        console.log(clients)
+        // console.log(clients)
         if (clients.length > 0) {
           if( push ) {
             clients[0].postMessage({ type: "play-sound" });
