@@ -14,7 +14,7 @@
   import { Link } from "svelte-routing";
   import Loading from "~/components/ui/Loading.svelte";
   import Button from "~/lib/components/ui/button/button.svelte";
-  import { checkSubscription, serviceWorkerUnregister, subscribeToNotifications, unsubscribeFromPush, serviceWorkerSound, notificationSound, notificationSoundVolume, updateVolume } from "~/utils/pushNotification";
+  import { checkSubscription, serviceWorkerUnregister, subscribeToNotifications, unsubscribeFromPush, serviceWorkerSound, notificationSound, notificationSoundVolume, updateVolume, onSound } from "~/utils/pushNotification";
   
   import { Slider } from "$lib/components/ui/slider/index.js";
   import * as Drawer from "$lib/components/ui/drawer/index.js";
@@ -32,28 +32,37 @@
 
   let btnRef
   onMount(()=> {
+    console.log('싸운즈', $notificationSound)
+    if( !$notificationSound ) serviceWorkerSound()
     notificationSound.set(new Audio('/notification.mp3'))
     checkSubscription(setSwSubscription)
-    serviceWorkerSound()
     // enableSound()
     // serviceWorkerSound($notificationSound)
     // checkSoundInterect()
     // btnRef.click()
+
+    notificationSoundVolume.subscribe(value => {
+      updateVolume(value)
+      if ($notificationSound) {
+        $notificationSound.volume = value;
+      }
+    });
   })
 
-  $effect(()=> {
+  /* $effect(()=> {
     console.log('volume update', $notificationSoundVolume)
     updateVolume($notificationSoundVolume)
-  })
+  }) */
 
 
-  let onSound= $state(false)
-  const setOnSound= (status)=> onSound= status 
+  // let onSound= $state(false)
+  // const setOnSound= (status)=> onSound= status 
   function enableSound() {
     const audio = new Audio('/notification.mp3'); 
     audio.play().then(() => {
       // serviceWorkerSound($notificationSound)
-      onSound= true;
+      onSound.set(true)
+      // onSound= true;
       console.log("소리 재생 가능");
       notificationSoundVolume.set(0.5)
       audio.pause()
@@ -81,7 +90,7 @@
 
   const sountTest= ()=> {
     console.log($notificationSoundVolume)
-    $notificationSound.volume = $notificationSoundVolume;
+    // $notificationSound.volume = $notificationSoundVolume;
     $notificationSound.play()
   }
 </script>
@@ -92,8 +101,6 @@
   sw_subscription={sw_subscription} 
   enableSound={enableSound} 
   sountTest={sountTest} 
-  onSound={onSound} 
-  setOnSound={setOnSound}
 />
 <Drawer.Root open={drawerOpen} onClose={onDrawerClose}>
   <Drawer.Content class="w-full max-w-[600px] mx-auto">

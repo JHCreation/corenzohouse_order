@@ -130,7 +130,7 @@
     navigate(link, { preserveScroll: true })
   }
 
-  $inspect('조인리스트', joinGroup)
+  // $inspect('조인리스트', joinGroup)
 
 </script>
 

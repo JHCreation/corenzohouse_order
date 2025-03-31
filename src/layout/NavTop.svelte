@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { checkSubscription, serviceWorkerUnregister, subscribeToNotifications, unsubscribeFromPush, serviceWorkerSound, notificationSound, notificationSoundVolume, updateVolume } from "~/utils/pushNotification";
-    let { drawerOpen, setDrawerOpen, sw_subscription, enableSound, sountTest, onSound, setOnSound }= $props()
+    import { checkSubscription, serviceWorkerUnregister, subscribeToNotifications, unsubscribeFromPush, serviceWorkerSound, notificationSoundVolume, updateVolume, onSound, setOnSound } from "~/utils/pushNotification";
+    let { drawerOpen, setDrawerOpen, sw_subscription, enableSound, sountTest}= $props()
     import { Bell, BellOff, Volume2, VolumeOff } from 'lucide-svelte';
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
     import Button from '~/lib/components/ui/button/button.svelte';
@@ -29,10 +29,10 @@
                 <DropdownMenu.Root open={open} onOpenChange={status=> open= status}>
                     <DropdownMenu.Trigger onclick={e=> open= true}>
                         <div class="">
-                            {#if onSound}
+                            {#if $onSound}
                                 <Volume2 size={24} strokeWidth={2.5} />                                
                             {/if}
-                            {#if !onSound}
+                            {#if !$onSound}
                                 <VolumeOff size={24} strokeWidth={2.5} class="text-red-600"/>
                             {/if}
                         </div>
@@ -41,12 +41,12 @@
                         <DropdownMenu.Group>
                             <!-- <DropdownMenu.GroupHeading>알림음</DropdownMenu.GroupHeading>
                             <DropdownMenu.Separator /> -->
-                            {#if !onSound}
+                            {#if !$onSound}
                                 <Button
                                     size="default"
                                     class={clsx('w-full',
                                         {
-                                            'bg-red-500 hover:bg-red-500': onSound,
+                                            'bg-red-500 hover:bg-red-500': $onSound,
                                         }
                                     )}
                                     onclick={e=> {
@@ -62,19 +62,28 @@
                 
                                 </Button>
                             {/if}
-                            {#if onSound}
+                            {#if $onSound}
                                 <div class="">
                                     <div class="p-4 border">
                                     <p class="text-xs">알림음 볼륨</p>
                                     <Slider type="single" bind:value={$notificationSoundVolume} max={1} step={.1} class="mt-4"/>
                                     </div>
-                                    <div class="flex">
-                                    <Button
-                                        size="sm"
-                                        onclick={e=> sountTest()}
-                                        class="text-xs bg-slate-600 hover:bg-slate-600 mt-1 w-full"
-                                    >테스트</Button>
-                                    <!-- <Button onclick={e=> $notificationSound.pause()}>pause</Button> -->
+                                    <div class="flex flex-col">
+                                        <Button
+                                            size="sm"
+                                            onclick={e=> sountTest()}
+                                            class="text-xs bg-slate-600 hover:bg-slate-600 mt-1 w-full"
+                                        >테스트</Button>
+                                        <Button
+                                            size="sm"
+                                            variant="destructive"
+                                            onclick={e=> {
+                                                updateVolume(0)
+                                                setOnSound(false)
+                                            }}
+                                            class="text-xs mt-1 w-full"
+                                        >알림음끄기</Button>
+                                        <!-- <Button onclick={e=> $notificationSound.pause()}>pause</Button> -->
                                     </div>
                 
                                 </div>

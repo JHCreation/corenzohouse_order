@@ -34,7 +34,7 @@
 					})
 					const list= _.flatten(prd)
 					const group= _.groupBy(list, 'key')
-					console.log(group)
+					// console.log(group)
 					Object.keys(group).map(key=> {
 						const total= _.sumBy(group[key], (item:any) => _.toNumber(item.price.replace(/,/g, '')) ) 
 						group[key]= total as any
@@ -49,11 +49,11 @@
 			}
 			
 		})
-		console.log(orderLists)
+		// console.log(orderLists)
 		return orderLists
 	}
 	let listByPrice= $derived<any>(groupPriceByType(listByTables))
-	$inspect('status', listByTables, list, listByPrice)
+	// $inspect('status', listByTables, list, listByPrice)
 </script>
 
 

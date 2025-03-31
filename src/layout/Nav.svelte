@@ -18,9 +18,9 @@
   let linkClass= 'pt-4 pb-6 w-full h-full flex justify-center'
 </script>
 
+
+
 <WrapNav >
-
-
 
 
 <div class="w-full fixed bottom-0 left-0 z-10">

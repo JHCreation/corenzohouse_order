@@ -152,6 +152,8 @@ export const serviceWorkerUnregister= ()=> {
 
 
 let volume= 0
+export const onSound= writable(false)
+export const setOnSound= (status)=> onSound.set(status)
 export const notificationSound= writable<any>()
 export const notificationSoundVolume= writable<any>(volume)
 
@@ -172,11 +174,12 @@ export const serviceWorkerSound= ()=> {
   // navigator.serviceWorker.removeEventListener("message", (event) => handleMessage(event, volume))
   navigator.serviceWorker.addEventListener("message", (event) => {
     console.log('start sounds', event)
+    const audio = new Audio('/notification.mp3'); // 소리 파일 경로
+
     if (event.data && event.data.type === "play-sound") {
-        const audio = new Audio('/notification.mp3'); // 소리 파일 경로
         audio.volume= volume
+        console.log(window, notificationSoundVolume, volume)
         // notificationSound.set(audio)
-        console.log(window, notificationSoundVolume)
         // notificationSound.volume = notificationSoundVolume;
         audio.play().catch(error => {
           alert('알림음이 꺼져있습니다.')
