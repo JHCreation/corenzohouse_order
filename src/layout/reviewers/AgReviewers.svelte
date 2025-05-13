@@ -1,4 +1,3 @@
-
 <script lang="ts" module>
     import { readable, writable } from "svelte/store";
     export const msgClick= writable<any>    (null)
@@ -54,14 +53,11 @@
         currentData= { msg }
     }
     
-
-    
-
     
     function getRowHeight(params: RowHeightParams): number | undefined | null {
         const links= JSON.parse(params.data['link'])
         const line= _.flattenDeep(_.values(links)).length
-        return 20*line;
+        return 20*(line==0?1:line);
     }
 
     const columns: ColDef[] = [
@@ -107,6 +103,7 @@
             "row " + event.node.data.athlete + " selected = " + event.node.isSelected(),
         );
     }
+    
     const options: GridOptions = {
         getRowHeight,
         // rowHeight: 20,
@@ -169,7 +166,7 @@
 
 
 
-<div class="h-[calc(100dvh-6rem)] text-xs px-5 pt-5">
+<div class="h-[calc(100dvh-6rem)] text-xs px-5 pt-10">
     <div class="flex h-full w-full">
 
         <CheckedList {checkedList} />
