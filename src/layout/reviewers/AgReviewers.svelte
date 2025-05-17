@@ -68,6 +68,12 @@
             field: "link", headerName: "채널링크", 
             valueGetter: (p) => JSON.parse(p.data['link']),
             valueFormatter: (p)=> {
+                console.log(p.value)
+                
+                if( p?.value ){
+                    // const matches = p.value.match(regex)
+
+                }
                 return p.value
             },
             cellRenderer: makeSvelteCellRenderer(ChannelLinkCell),
@@ -103,7 +109,7 @@
             "row " + event.node.data.athlete + " selected = " + event.node.isSelected(),
         );
     }
-    
+
     const options: GridOptions = {
         getRowHeight,
         // rowHeight: 20,
