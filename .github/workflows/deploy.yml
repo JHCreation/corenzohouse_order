@@ -35,6 +35,7 @@ jobs:
           VITE_API_URL: "https://www.corenzohouse.com/api"
           VITE_PUBLIC_URL: "https://www.corenzohouse.com"
           VITE_LOCAL_URL: "https://www.secret-kitchen.net"
+          VITE_API_IP: "https://api.memesition.com/corenzo"
           VITE_CORENZO_URL: "https://api.memesition.com/corenzo"
           VITE_CORENZO_URL_PUBLIC: "https://api.memesition.com/corenzo"
           VITE_VAPID_PUBLIC_KEY: ${{secrets.VITE_VAPID_PUBLIC_KEY}}
