@@ -75,7 +75,8 @@ export const authorization= async ({log, setLog, valid, invalid, expired}:Author
 export const handleLogout= (setLog)=> {
     console.log('로그아웃시도!')
     fetch(`${authUrl}/logout`, {
-        method: 'POST'
+        method: 'POST', 
+        credentials: "include"
     })
     setLog(null)
 }
