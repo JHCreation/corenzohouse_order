@@ -1,0 +1,96 @@
+
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');
+font-weight: 100;
+font-style: normal;
+}
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2');
+font-weight: 200;
+font-style: normal;
+}
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2');
+font-weight: 300;
+font-style: normal;
+}
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2');
+font-weight: 400;
+font-style: normal;
+}
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');
+font-weight: 500;
+font-style: normal;
+}
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');
+font-weight: 600;
+font-style: normal;
+}
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');
+font-weight: 700;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+font-weight: 800;
+font-style: normal;
+}
+@font-face {
+font-family: 'Paperlogy';
+src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2');
+font-weight: 900;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'SUITE';
+src: url('https://cdn.jsdelivr.net/gh/sun-typeface/SUITE@2/fonts/variable/woff2/SUITE-Variable.woff2') format('woff2');
+font-weight: 300 900;
+font-style: normal;
+}
+
+.qr-menu-item {
+    border: 15px solid #ddd;
+    border-image-source: url('/img/corenzo-border-1.svg');
+    border-image-slice: 30;
+    border-image-repeat: round;
+}
+::-webkit-scrollbar { width: 4px; height: 4px; background-color: transparent;  }
+::-webkit-scrollbar-thumb { background-color: #848484; }
+
+
+:root {
+    font-family: 'SUITE';
+    --first: #1dce05;
+}
+@theme {
+    --color-first: var(--first);
+    --spacing-nav: 64px;
+    --nav: 64px;
+    --nav-m: 54px;
+    --font-title: 'RiaSans-ExtraBold';
+    --font-normal: 'Pretendard';
+    --font-highlight: 'GangwonEdu_OTFBoldA';
+    --color-bright: #7AE2CF;
+    /* --color-first: #004B99; */
+    --color-second: #213448;
+    --color-third: #6c9781;
+    --color-fourth: #badfd4;
+    --color-point: #06202B;
+    --color-basic: #F9FBFF;
+    --color-paper: #fff;
+    --text-2xs: 0.6em;
+}

@@ -1,6 +1,6 @@
 <script lang="ts" module>
     import { readable, writable } from "svelte/store";
-    export const msgClick= writable<any>    (null)
+    export const msgClick= writable<any>(null)
 </script>
 
 <script lang="ts">
@@ -15,26 +15,12 @@
     import Detail from "./Detail.svelte";
     import Button from "~/lib/components/ui/button/button.svelte";
     import CheckedList from "./CheckedList.svelte";
-
-
-
-    interface Person {
-        id: string;
-        name: string;
-        age: number;
-    }
-
-    let rowData = $state<Person[]>([
-        { id: "1", name: "Jane", age: 25 },
-        { id: "2", name: "Jimbo", age: 32 },
-        { id: "3", name: "Jensen", age: 41 },
-    ]);
-
+    import { reviewers_status, type ReviewersStatusKey } from "~/store/query/reviewers/types";
     
 
     let list= $state<any>([])
     onMount(async ()=>{
-        const res= await fetch(`${import.meta.env.VITE_CORENZO_URL_PUBLIC}/reviewers`)
+        const res= await fetch(`${import.meta.env.VITE_API_IP}/reviewers`)
         const data= await res.json()
         list= data.list
         console.log(msgClick)
@@ -64,15 +50,13 @@
         { field: "name", headerName: "이름", rowDrag: true },
         { field: "gender", headerName: "성별",  },
         { field: "email", headerName: "이메일",  },
+        { field: "service", headerName: "서비스", editable: true },
         { 
             field: "link", headerName: "채널링크", 
             valueGetter: (p) => JSON.parse(p.data['link']),
             valueFormatter: (p)=> {
-                console.log(p.value)
-                
                 if( p?.value ){
                     // const matches = p.value.match(regex)
-
                 }
                 return p.value
             },
@@ -86,8 +70,8 @@
         { 
             field: "msg", headerName: "메세지", 
             cellRenderer: makeSvelteCellRenderer(MsgCell),
-
          },
+        { field: "status", headerName: "상태", valueFormatter: (p) => reviewers_status[p.value as ReviewersStatusKey] },
         { field: "create_date", headerName: "일자",  },
     ]
 
@@ -137,8 +121,6 @@
 
     const modules = [ClientSideRowModelModule];
 
-
-
     const rightColumns: ColDef[] = [
         { field: "name", headerName: "이름", rowDrag: true },
         { field: "gender", headerName: "성별",  },
@@ -157,7 +139,7 @@
         { field: "wish_drink", headerName: "관심주류",  },
         { field: "birthday", headerName: "생년월일",  },
         { field: "channel", headerName: "채널",  },
-        { field: "msg", headerName: "메세지",  },
+        { field: "msg", headerName: "메세지" },
         { field: "create_date", headerName: "일자",  },
     ]
 
@@ -172,7 +154,7 @@
 
 
 
-<div class="h-[calc(100dvh-6rem)] text-xs px-5 pt-10">
+<div class="h-[calc(100dvh-8rem)] text-xs px-5 pt-10">
     <div class="flex h-full w-full">
 
         <CheckedList {checkedList} />

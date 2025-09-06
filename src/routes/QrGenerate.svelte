@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import printJS from 'print-js'
   import Button from '~/lib/components/ui/button/button.svelte';
-  import { Info } from 'lucide-svelte';
+  import { Info } from '@lucide/svelte';
   // console.log(QRCode)
 
   let qrCode = $state<any[]>([])

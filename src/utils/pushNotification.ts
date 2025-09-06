@@ -9,6 +9,36 @@ import {
 	toStore,
 	writable
 } from 'svelte/store';
+
+export const sw_subscription= writable<boolean|null>(null)
+export const setSwSubscription= (status)=> {
+  sw_subscription.set(status)
+  // sw_subscription= status
+}
+
+export const swUpdate= async (registration) => {
+  // const registration = await navigator.serviceWorker.ready;
+  registration.addEventListener('updatefound', () => {
+    const newWorker = registration.installing;
+    if (newWorker) {
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed') {
+          if (navigator.serviceWorker.controller) {
+            // 새 서비스 워커가 설치되었고, 이전 서비스 워커가 여전히 제어 중인 경우
+            console.log('New content is available! Please refresh.');
+            // 사용자에게 새로고침을 유도하는 UI를 표시할 수 있습니다.
+            // 예: "새로운 버전이 준비되었습니다. 새로고침하여 적용하세요."
+            // 또는 자동으로 새로고침: window.location.reload(); (사용자 경험 고려)
+          } else {
+            // 서비스 워커가 처음 설치된 경우
+            console.log('Content is cached for offline use.');
+          }
+        }
+      });
+    }
+  });
+}
+
 export async function subscribeToNotifications(setSwSubscription) {
   console.log('서비스 워커 등록!')
   try {
@@ -20,7 +50,7 @@ export async function subscribeToNotifications(setSwSubscription) {
     );
     const registration = await navigator.serviceWorker.ready;
     console.log(registration.pushManager.subscribe)
-    
+    swUpdate(registration)
     // 푸시 구독
     const subscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
@@ -171,6 +201,7 @@ export const updateVolume= (vol)=> {
   // notificationSoundVolume.set(vol)
 }
 export const serviceWorkerSound= ()=> {
+  console.log('serviceWorkerSound 설정!', volume)
   // navigator.serviceWorker.removeEventListener("message", (event) => handleMessage(event, volume))
   navigator.serviceWorker.addEventListener("message", (event) => {
     console.log('start sounds', event)
@@ -185,12 +216,12 @@ export const serviceWorkerSound= ()=> {
           alert('알림음이 꺼져있습니다.')
           console.error("message 소리 재생 실패:", error)
         });
-        getOrders()
+        // getOrders()
     }
-    if (event.data && event.data.type === "order-refresh") {
+    // if (event.data && event.data.type === "order-refresh") {
       console.log('새로고침만 작동했다')
       getOrders()
-    }
+    // }
   });
   
   

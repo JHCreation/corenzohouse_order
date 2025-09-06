@@ -17,7 +17,7 @@ export type OrderGroupStatus= keyof typeof orderGroupStatusKeys
 
 
 export const deleteOrder= async ({ order_id })=> {
-    const res= await fetch(`${import.meta.env.VITE_CORENZO_URL}/orders`, {
+    const res= await fetch(`${import.meta.env.VITE_API_IP}/orders`, {
         method: 'DELETE',
         headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const deleteOrder= async ({ order_id })=> {
 
 
 export const deleteOrderItem= async ({ key })=> {
-    const res= await fetch(`${import.meta.env.VITE_CORENZO_URL}/orders-item`, {
+    const res= await fetch(`${import.meta.env.VITE_API_IP}/orders-item`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export const getOrders= async ()=> {
         }
     const qry= queryString.stringify(param)
         
-    const res= await fetch(`${import.meta.env.VITE_CORENZO_URL}/order-groups?${qry}`)
+    const res= await fetch(`${import.meta.env.VITE_API_IP}/order-groups?${qry}`)
     const result= await res.json()
 
     const group= result?.group

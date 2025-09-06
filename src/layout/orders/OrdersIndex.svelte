@@ -31,23 +31,25 @@
 </script>
 
 <script lang="ts">
-    import dayjs from 'dayjs'
-    import 'dayjs/locale/ko'
-    import * as Tabs from "$lib/components/ui/tabs/index.js";
-    import OrdersTable from './OrdersTable.svelte';
-    import qs from 'query-string';
-    import queryString from 'query-string';
-    import { navigate, useLocation } from 'svelte-routing';
-    import _ from 'lodash';
-    import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
-    import { getOrders, orderList, orderGroup } from './orders.svelte';
-    // import type { OrderGroupStatus } from './orders';
+  import dayjs from 'dayjs'
+  import 'dayjs/locale/ko'
+  import * as Tabs from "$lib/components/ui/tabs/index.js";
+  import OrdersTable from './OrdersTable.svelte';
+  import qs from 'query-string';
+  import queryString from 'query-string';
+  import { navigate, useLocation } from 'svelte-routing';
+  import _ from 'lodash';
+  import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
+  import { getOrders, orderList, orderGroup } from './orders.svelte';
+  import { makeNewParams } from '~/utils/basic';
+  import { sw_subscription } from '~/utils/pushNotification';
+  // import type { OrderGroupStatus } from './orders';
 
   
   dayjs.locale('ko')
   const location= useLocation()
-  let type= $state<ViewType>(queryString.parse($location.search).type as ViewType || listType)
-  let status= $state<OrderGroupStatus|'all'>(queryString.parse($location.search).status as OrderGroupStatus || statusUse)
+  let type= $derived<ViewType>(queryString.parse($location.search).type as ViewType || listType)
+  let status= $derived<OrderGroupStatus|'all'>(queryString.parse($location.search).status as OrderGroupStatus || statusUse)
 
   let { group, list }= $derived<any>({ group: $orderGroup, list: $orderList })
   
@@ -102,7 +104,7 @@
 
 
   const fetchPaid= async (params:PutParam) => {
-    const res= await fetch(`${import.meta.env.VITE_CORENZO_URL}/order-group/${params.id}`, {
+    const res= await fetch(`${import.meta.env.VITE_API_IP}/order-group/${params.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -117,20 +119,14 @@
     return result
   }
 
-  let currentQuery = queryString.parse(window.location.search);
-  const makeNewParams= (key, value)=> {
-    const newParams = { [key]: value }
-    const updatedQuery = { ...currentQuery, ...newParams }
-    const newQueryString = queryString.stringify(updatedQuery)
-    const linkDetail= `${$location.pathname}?${newQueryString}`
-    return linkDetail
-  }
+  
   const handleLink= (key, value)=>{
-    const link= makeNewParams(key, value)
+    const newQueryString= makeNewParams(key, value)
+    const link= `${$location.pathname}?${newQueryString}`
     navigate(link, { preserveScroll: true })
   }
 
-  // $inspect('조인리스트', joinGroup)
+  $inspect($sw_subscription)
 
 </script>
 
@@ -141,11 +137,12 @@
   </div>
 {/snippet}
 
+{#if $sw_subscription}
 <div class="w-full px-2 pt-20 pb-24">
 
   <Tabs.Root value={type} >
-    <div class="max-w-screen-md mx-auto flex items-center justify-between">
-      <Tabs.List class="max-w-[400px]">
+    <div class="w-full mx-auto flex items-center justify-start gap-2 mb-4 ">
+      <Tabs.List class="max-w-[400px] bg-first ">
         <Tabs.Trigger 
           value={listType}
           onclick={e=>handleLink('type',listType)}  
@@ -156,8 +153,8 @@
         >테이블</Tabs.Trigger>
       </Tabs.List>
 
-      <div class="">
-        <RadioGroup.Root bind:value={status} class="flex gap-4" onValueChange={value=> handleLink('status', value)}>
+      <div class="ml-5 md:ml-10">
+        <RadioGroup.Root bind:value={status} class="text-sm md:text-base flex gap-4" onValueChange={value=> handleLink('status', value)}>
           
           {@render radio('all', '전체' )}
           
@@ -216,3 +213,10 @@
   </Tabs.Root>
 
 </div>
+{/if}
+
+{#if !$sw_subscription}
+  <div class="w-full max-w-screen-md mx-auto">
+    <p class="text-center text-red-500">푸시알림을 허용해주세요.</p>
+  </div>
+{/if}

@@ -95,7 +95,7 @@
 									</Button>
 								</div>
 								<div class="">
-									<ul class="text-xs">
+									<ul class="text-xs break-keep">
 										{#each content.prod as prod}
 											{@const { key, name, price, qty, option  }= prod}
 											<li class="">
